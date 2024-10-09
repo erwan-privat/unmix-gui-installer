@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyefxxwx8ll2n"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_l08hx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wsqf6"]
+font_size = 36
+
+[node name="Main" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l08hx")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainVBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLbl" type="Label" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+text = "Unmix GUI installation wizard"
+label_settings = SubResource("LabelSettings_wsqf6")
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+
+[node name="DescriptionLbl" type="Label" parent="MarginContainer/MainVBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "This tool will help you install Unmix GUI to your computer. If you already have a working open-unmix binary installed in the path, please uncheck the following checkbox. You will be able to set umx path in the app later on."
+autowrap_mode = 3
+
+[node name="InstallPathContainer" type="HBoxContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+
+[node name="InstallPathTxt" type="LineEdit" parent="MarginContainer/MainVBox/InstallPathContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "C:\\Program Files\\unmix-gui\\"
+placeholder_text = "Path to install directory"
+
+[node name="InstallPathBtn" type="Button" parent="MarginContainer/MainVBox/InstallPathContainer"]
+layout_mode = 2
+text = "Browse...
+"
+
+[node name="DoNotInstallUmxBtn" type="CheckBox" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+text = "Do not install open-unmix, I'm already covered."
+
+[node name="Console" type="RichTextLabel" parent="MarginContainer/MainVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+theme_override_colors/table_border = Color(0, 0, 0, 1)
+scroll_following = true
+selection_enabled = true
+
+[node name="InstallBtn" type="Button" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Install"
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+
+[node name="QuitBtn" type="Button" parent="MarginContainer/MainVBox/ButtonsHBox"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Control" type="Control" parent="MarginContainer/MainVBox/ButtonsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="toggled" from="MarginContainer/MainVBox/DoNotInstallUmxBtn" to="." method="_on_do_not_install_umx_btn_toggled"]
+[connection signal="pressed" from="MarginContainer/MainVBox/InstallBtn" to="." method="_on_install"]
+[connection signal="pressed" from="MarginContainer/MainVBox/ButtonsHBox/QuitBtn" to="." method="_on_quit"]
