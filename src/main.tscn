@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyefxxwx8ll2n"]
+[gd_scene load_steps=5 format=3 uid="uid://dyefxxwx8ll2n"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_l08hx"]
+[ext_resource type="Script" path="res://downloader.gd" id="2_vtnqn"]
+[ext_resource type="Script" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="3_xvuax"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wsqf6"]
 font_size = 36
@@ -42,9 +44,10 @@ autowrap_mode = 3
 layout_mode = 2
 
 [node name="InstallPathTxt" type="LineEdit" parent="MarginContainer/MainVBox/InstallPathContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "C:\\Program Files\\unmix-gui\\"
+text = "/home/archaoss/unmix/test"
 placeholder_text = "Path to install directory"
 
 [node name="InstallPathBtn" type="Button" parent="MarginContainer/MainVBox/InstallPathContainer"]
@@ -56,12 +59,25 @@ text = "Browse...
 layout_mode = 2
 text = "Do not install open-unmix, I'm already covered."
 
+[node name="UmxUrlLbl" type="Label" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+text = "URL to UMX bundle
+"
+
+[node name="UmxUrlTxt" type="LineEdit" parent="MarginContainer/MainVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "http://erwan-privat.fr/data/These-QR.m4v"
+
+[node name="Progress" type="ProgressBar" parent="MarginContainer/MainVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Console" type="RichTextLabel" parent="MarginContainer/MainVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
-theme_override_colors/table_border = Color(0, 0, 0, 1)
 scroll_following = true
 selection_enabled = true
 
@@ -77,10 +93,19 @@ layout_mode = 2
 layout_mode = 2
 text = "Quit"
 
-[node name="Control" type="Control" parent="MarginContainer/MainVBox/ButtonsHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="Downloader" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_vtnqn")
 
-[connection signal="toggled" from="MarginContainer/MainVBox/DoNotInstallUmxBtn" to="." method="_on_do_not_install_umx_btn_toggled"]
+[node name="HTTPManager" type="Node" parent="Downloader"]
+script = ExtResource("3_xvuax")
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Error"
+
+[connection signal="toggled" from="MarginContainer/MainVBox/DoNotInstallUmxBtn" to="." method="_on_no_umx"]
 [connection signal="pressed" from="MarginContainer/MainVBox/InstallBtn" to="." method="_on_install"]
 [connection signal="pressed" from="MarginContainer/MainVBox/ButtonsHBox/QuitBtn" to="." method="_on_quit"]
+[connection signal="progressed" from="Downloader" to="." method="_on_progress"]
+[connection signal="progress" from="Downloader/HTTPManager" to="Downloader" method="_on_progress"]

@@ -25,6 +25,10 @@ config/icon="res://icon.svg"
 
 window/energy_saving/keep_screen_on=false
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/HTTPManager/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
